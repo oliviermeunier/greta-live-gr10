@@ -90,15 +90,15 @@ const movies = [
         'https://www.imdb.com/title/tt1136608/'
     ),
     new Movie (
-        '3 AOUT',
-        112, 
-        '2022-08-03', 
-        ['Sharlto Copley', 'Jason Cope', 'David James (XLII)'], 
-        ['Thriller', 'Action', 'Science-fiction'], 
-        'Neill Blomkamp', 
-        'USA', 
-        'district-9.png', 
-        'https://www.imdb.com/title/tt1136608/'
+        'La guerre des Lulus',
+        103, 
+        '2023-01-18', 
+        ['Isabelle Carré', 'Didier Bourdon', 'François Damiens'], 
+        ['Aventure', 'Famille', 'Historique'], 
+        'Yann Samuell', 
+        'France', 
+        'lulus.png', 
+        'https://www.imdb.com/title/tt22039496/'
     )
 ];
 
