@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="js/main.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1>Exercice Movies</h1>
+        <h2>Enoncé</h2>
+        <h3>1°) Créer une classe Movie regroupant les informations suivantes sur un film : </h3>
+            <ul>
+                <li>titre</li>
+                <li>durée (minutes)</li>
+                <li>date de sortie</li>
+                <li>casting</li>
+                <li>genres</li>
+                <li>réalisateur</li>
+                <li>nationalité</li>
+                <li>affiche</li>
+                <li>lien IMDB</li>
+            </ul> 
+        <h3>2°) Ajouter à la classe Movie :</h3>
+        <ul>
+            <li>une méthode pour formatter la durée en heures et minutes</li>
+            <li>une méthode pour construire le code HTML de la vignette du film </li>
+        </ul>
+
+        <h3>3°) Créer quelques objets Movie et les ranger dans un tableau.</h3>
+        <h3>4°) Créer une fonction qui va trier un tableau de films par titre</h3>
+        <h3>5°) Créer une fonction qui va trier un tableau de films par année</h3>
+        <h3>6°) Créer une fonction pour filtrer les films en fonction d'un genre</h3> 
+    </header>
+    <main>
+        <button id="all-movies-button">Voir tous les films</button>
+        <button id="order-by-title-button">Trier par titre A -> Z</button>
+        <button id="order-by-date-button">Trier par date de sortie (croissante)</button>
+        <select name="genre">
+            <option value="action">Action</option>
+            <option value="drame">Drame</option>
+            <option value="science-fiction">Science-fiction</option>
+            <option value="thriller">Thriller</option>
+            <option value="aventure">Aventure</option>
+        </select>
+        <section id="film-list"></section>
+    </main>
+</body>
+</html>
