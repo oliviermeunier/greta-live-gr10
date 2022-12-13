@@ -1,0 +1,35 @@
+[
+    {
+        "title":"Jurassic Park",
+        "duration":122, 
+        "releaseDate":"1993-12-01", 
+        "casting":["Sam Neill", "Laura Dern", "Jeff Goldblum"], 
+        "genres":["Aventure", "Science-fiction"], 
+        "director":"Steven Spielberg", 
+        "nationality":"USA", 
+        "poster":"jurassic-park.png", 
+        "imdbLink":"https://www.imdb.com/title/tt0107290/"
+    },
+    {
+        "title":"District 9",
+        "duration":112, 
+        "releaseDate":"2022-11-09", 
+        "casting":["Sharlto Copley", "Jason Cope", "David James (XLII)"], 
+        "genres":["Thriller", "Action", "Science-fiction"],  
+        "director":"Neill Blomkamp",  
+        "nationality":"USA", 
+        "poster":"district-9.png",
+        "imdbLink":"https://www.imdb.com/title/tt1136608/"
+    },
+    {
+        "title":"La guerre des Lulus",
+        "duration":103, 
+        "releaseDate":"2023-01-18",
+        "casting":["Isabelle Carré", "Didier Bourdon", "François Damiens"], 
+        "genres":["Aventure", "Famille", "Historique"], 
+        "director":"Yann Samuell",   
+        "nationality":"France", 
+        "poster":"lulus.png",
+        "imdbLink":"https://www.imdb.com/title/tt22039496/"
+    }
+]

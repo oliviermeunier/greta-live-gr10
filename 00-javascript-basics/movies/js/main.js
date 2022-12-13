@@ -1,110 +1,50 @@
-/////////////////////////////////////////
-// Définition de la classe Movie
-// Idéalement dans un fichier à part 
-// et importée avec les modules
-//////////////////////////////////////
-class Movie {
-    constructor(
-        title, 
-        duration, 
-        releaseDate, 
-        casting, 
-        genres, 
-        director, 
-        nationality, 
-        poster, 
-        imdbLink
-    ) {
-        this.title = title;
-        this.duration = duration;
-        this.releaseDate = new Date(releaseDate);
-        this.casting = casting;
-        this.genres = genres;
-        this.director = director;
-        this.nationality = nationality;
-        this.poster = poster;
-        this.imdbLink = imdbLink;
-    }
+// Import des modules
+import Movie from './modules/Movie.js';
 
-    formatDuration() {
-        const hours = Math.floor(this.duration/60);
-        const minutes = this.duration%60;
-        let formatedDuration = hours > 0 ? `${hours}h` : '';
-        formatedDuration += String(minutes).padStart(2,'0');
-        return formatedDuration;
-    }
-
-    padTo2Digits(num) {
-        return num.toString().padStart(2, '0');
-    }
-      
-    formatDate(date) {
-        return [
-          this.padTo2Digits(date.getDate()),
-          this.padTo2Digits(date.getMonth() + 1),
-          date.getFullYear(),
-        ].join('/');
-    }
-
-    toHTML() {
-        return `<article>
-            <h3>${this.title}</h3>
-            <p>Durée : ${this.formatDuration()}</p>
-            <p>Sortie en salles : ${this.formatDate(this.releaseDate)}</p>
-            <img src="posters/${this.poster}" alt="${this.title}">
-            <p>Casting : ${this.casting.join(', ')}</p>
-            <p>Genres : ${this.genres.join(', ')}</p>
-            <p>${this.nationality}</p>
-            <p><a target="_blank" href="${this.imdbLink}" title="Voir la fiche IMDB">Lien IMDB</a></p>
-        </article>`;
-    }
-}
-
-//////////////////////////////////////////////////////////////////
-// DONNEES 
-// Création d'un tableau contenant des objets de la classe Movie
-// En vrai on ferait appel à une API pour récupérer les données
-// des films en JSON grâce à la technique "AJAX". 
-/////////////////////////////////////////////////////////////////
-const movies = [
-    new Movie (
-        'Jurassic Park',
-        122, 
-        '1993-12-01', 
-        ['Sam Neill', 'Laura Dern', 'Jeff Goldblum'], 
-        ['Aventure', 'Science-fiction'], 
-        'Steven Spielberg', 
-        'USA', 
-        'jurassic-park.png', 
-        'https://www.imdb.com/title/tt0107290/'
-    ),
-    new Movie (
-        'District 9',
-        112, 
-        '2022-11-09', 
-        ['Sharlto Copley', 'Jason Cope', 'David James (XLII)'], 
-        ['Thriller', 'Action', 'Science-fiction'], 
-        'Neill Blomkamp', 
-        'USA', 
-        'district-9.png', 
-        'https://www.imdb.com/title/tt1136608/'
-    ),
-    new Movie (
-        'La guerre des Lulus',
-        103, 
-        '2023-01-18', 
-        ['Isabelle Carré', 'Didier Bourdon', 'François Damiens'], 
-        ['Aventure', 'Famille', 'Historique'], 
-        'Yann Samuell', 
-        'France', 
-        'lulus.png', 
-        'https://www.imdb.com/title/tt22039496/'
-    )
-];
 
 //////////////////////////////////////////////////////
 // DEFINITION DE FONCTIONS
 /////////////////////////////////////////////////////
+
+/**
+ * Lance une requête AJAX pour récupérer les données des films
+ * @param {string} url URL de la requête AJAX
+ */
+async function fetchMovies(url)
+{
+    const response = await fetch(url);
+    const movies = response.json();
+    return movies;
+}
+
+/**
+ * Fonction appelée au chargement de la page
+ */
+async function init()
+{
+    // On récupère les movies du fichier JSON
+    movies = await fetchMovies('js/data/movies.json');
+    
+    // On crée les objets Movie
+    movies = movies.map(dataMovie => new Movie(dataMovie));
+
+    // On installe tous les gestionnaires d'événements sur la page
+    const selectGenre = document.querySelector('[name="genre"]');
+    selectGenre.addEventListener('change', onChangeGenre);
+
+    const orderByTitleBtn = document.getElementById('order-by-title-button');
+    orderByTitleBtn.addEventListener('click', onClickOrderByTitle);
+
+    const orderByDateBtn = document.getElementById('order-by-date-button');
+    orderByDateBtn.addEventListener('click', onClickOrderByDate);
+
+    const allMoviesBtn = document.getElementById('all-movies-button');
+    allMoviesBtn.addEventListener('click', onClickAllMovies);
+
+    // On affiche tous les films pour commencer
+    displayMovies(movies);
+}
+
 
 /**
  * Affiche les objets Movie contenus dans un tableau
@@ -171,7 +111,7 @@ function sortByReleaseDate(movies)
  * @param {Array<Movie>} movies 
  * @param {string} genre 
  */
-function filterByGenre(movies,genre) 
+function filterByGenre(genre) 
 {
     return movies.filter(movie => {
         return movie.genres.map(g => g.toLowerCase()).includes(genre.toLowerCase())
@@ -184,26 +124,26 @@ function filterByGenre(movies,genre)
 function onChangeGenre(event) 
 {
     const genre = event.currentTarget.value; 
-    const filteredMovies = filterByGenre(movies, genre);
-    displayMovies(filteredMovies);
+    results = filterByGenre(genre);
+    displayMovies(results);
 }
 
 function onClickOrderByTitle() 
 {
     // Tri des films par ordre alphabétique du titre
-    sortByTitle(movies);
+    sortByTitle(results);
 
     // On affiche les films une fois triés par titre
-    displayMovies(movies);
+    displayMovies(results);
 }
 
 function onClickOrderByDate() 
 {
     // Tri des films par ordre alphabétique du date
-    sortByReleaseDate(movies);
+    sortByReleaseDate(results);
 
     // On affiche les films une fois triés par date
-    displayMovies(movies);
+    displayMovies(results);
 }
 
 function onClickAllMovies()
@@ -217,20 +157,8 @@ function onClickAllMovies()
 // (code en dehors de toute fonction)
 ////////////////////////////////////////
 
-/**
- * Installation d'un gestion d'événement sur l'événement "change" sur la liste déroulante des genres
- */
-const selectGenre = document.querySelector('[name="genre"]');
-selectGenre.addEventListener('change', onChangeGenre);
+// Variable globales
+let movies; // Tous les films 
+let results = structuredClone(movies); // Les résultats du filtre par genre
 
-const orderByTitleBtn = document.getElementById('order-by-title-button');
-orderByTitleBtn.addEventListener('click', onClickOrderByTitle);
-
-const orderByDateBtn = document.getElementById('order-by-date-button');
-orderByDateBtn.addEventListener('click', onClickOrderByDate);
-
-const allMoviesBtn = document.getElementById('all-movies-button');
-allMoviesBtn.addEventListener('click', onClickAllMovies);
-
-// On affiche tous les films pour commencer
-displayMovies(movies);
+init();
